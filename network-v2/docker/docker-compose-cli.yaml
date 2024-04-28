@@ -37,6 +37,6 @@ services:
         - peer0.pemilihan.pemira.com
         - peer1.pemilihan.pemira.com
       networks:
-      skripsi-evoting:
-        aliases:
-          - cli.pemilihan.pemira.com
+        skripsi-evoting:
+          aliases:
+            - cli.pemilihan.pemira.com
