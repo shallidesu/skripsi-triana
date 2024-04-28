@@ -56,9 +56,9 @@ services:
     volumes:
       # - ../organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
       # - ../organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
-      - /home/ubuntu/skripsi-triana/network/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - /home/ubuntu/skripsi-triana/network/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
-      - /home/ubuntu/skripsi-triana/network/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
+      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
+      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
       - orderer.pemira.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
@@ -107,8 +107,8 @@ services:
     volumes:
       - /var/run/:/host/var/run/
       # - ../organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com:/etc/hyperledger/fabric
-      - /home/ubuntu/skripsi-triana/network/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
-      - /home/ubuntu/skripsi-triana/network/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
+      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
+      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
       - peer0.pemilihan.pemira.com:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
@@ -158,8 +158,8 @@ services:
     volumes:
       - /var/run/:/host/var/run/
       # - ../organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com:/etc/hyperledger/fabric
-      - /home/ubuntu/skripsi-triana/network/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
-      - /home/ubuntu/skripsi-triana/network/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
+      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
+      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
       - peer1.pemilihan.pemira.com:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
