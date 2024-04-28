@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# imports
+source ./scripts/envVar.sh
+source ./scripts/utils.sh
+
 CHANNEL_NAME="$1"
 DELAY="$2"
 MAX_RETRY="$3"

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # imports  
-source ./scripts/envVar.sh
-source ./scripts/utils.sh
 source ./.env
+export PATH=${PWD}/../bin:$PATH
+export FABRIC_CFG_PATH=${PWD}/configtx
 
 # ---------------------------------------------------------------------------
 # Clear screen
