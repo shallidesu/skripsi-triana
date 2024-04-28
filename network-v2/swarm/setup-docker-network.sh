@@ -12,7 +12,6 @@ clear
 # ---------------------------------------------------------------------------
 docker node update --label-add name=manager $NODE1_ID
 docker node update --label-add name=worker1 $NODE2_ID
-docker node inspect id
 
 # ---------------------------------------------------------------------------
 # Create a network

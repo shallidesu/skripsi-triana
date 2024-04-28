@@ -22,7 +22,7 @@ echo
 echo "# ---------------------------------------------------------------------------"
 echo "# Generating certificates using Fabric CA"
 echo "# ---------------------------------------------------------------------------"
-docker stack deploy -c docker-compose-ca.yaml hlf 2>&1
+docker stack deploy -c docker/docker-compose-ca.yaml hlf 2>&1
 . organizations/fabric-ca/registerEnroll.sh
 
 while :
