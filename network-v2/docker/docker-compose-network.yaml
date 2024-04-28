@@ -6,9 +6,9 @@
 version: "3.7"
 
 volumes:
-  orderer.pemira.com:
-  peer0.pemilihan.pemira.com:
-  peer1.pemilihan.pemira.com:
+  ordererpemiracom:
+  peer0pemilihanpemiracom:
+  peer1pemilihanpemiracom:
 
 networks:
   skripsi-evoting:
@@ -16,7 +16,7 @@ networks:
       name: skripsi-evoting
 
 services:
-  orderer.pemira.com:
+  ordererpemiracom:
     deploy:
       placement:
         constraints:
@@ -59,7 +59,7 @@ services:
       - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
       - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
-      - orderer.pemira.com:/var/hyperledger/production/orderer
+      - ordererpemiracom:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
       - 7053:7053
@@ -69,7 +69,7 @@ services:
         aliases:
           - orderer.pemira.com
 
-  peer0.pemilihan.pemira.com:
+  peer0pemilihanpemiracom:
     deploy:
       placement:
         constraints:
@@ -109,7 +109,7 @@ services:
       # - ../organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com:/etc/hyperledger/fabric
       - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
       - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
-      - peer0.pemilihan.pemira.com:/var/hyperledger/production
+      - peer0pemilihanpemiracom:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
@@ -120,7 +120,7 @@ services:
         aliases:
           - peer0.pemilihan.pemira.com
 
-  peer1.pemilihan.pemira.com:
+  peer1pemilihanpemiracom:
     deploy:
       placement:
         constraints:
@@ -160,7 +160,7 @@ services:
       # - ../organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com:/etc/hyperledger/fabric
       - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
       - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
-      - peer1.pemilihan.pemira.com:/var/hyperledger/production
+      - peer1pemilihanpemiracom:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:

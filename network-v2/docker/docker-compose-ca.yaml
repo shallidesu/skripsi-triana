@@ -15,7 +15,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.Labels.name == manager
+          - node.labels.name == manager
     image: hyperledger/fabric-ca:latest
     # labels:
     #   service: hyperledger-fabric
@@ -58,7 +58,7 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       # - ../organizations/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
-      - /home/ubuntu/Hyperledger-Fabric-on-Swarm/network-v2/organizations/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
+      - /home/ubuntu/skripsi-triana/network/organizations/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
     container_name: ca_orderer
     networks:
       skripsi-evoting:

@@ -34,7 +34,7 @@ services:
         aliases:
           - couchdb0.pemira.com
 
-  peer0.pemilihan.pemira.com:
+  peer0pemilihanpemiracom:
     deploy:
       placement:
         constraints:
@@ -73,7 +73,7 @@ services:
         aliases:
           - couchdb1.pemira.com
 
-  peer1.pemilihan.pemira.com:
+  peer1pemilihanpemiracom:
     deploy:
       placement:
         constraints:

@@ -11,7 +11,7 @@ networks:
       name: skripsi-evoting
 
 services:
-  cli:
+  cliPemilihan:
       container_name: cli
       image: hyperledger/fabric-tools:latest
       labels:
@@ -39,4 +39,4 @@ services:
       networks:
       skripsi-evoting:
         aliases:
-          - ca.pemilihan.pemira.com
+          - cli.pemilihan.pemira.com
