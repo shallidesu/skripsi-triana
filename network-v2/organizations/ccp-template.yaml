@@ -1,0 +1,44 @@
+---
+name: blockchain-pemilihan
+version: 1.0.0
+client:
+  organization: Pemilihan
+  connection:
+    timeout:
+      peer:
+        endorser: "300"
+organizations:
+  Pemilihan:
+    mspid: PemilihanMSP
+    peers:
+      - peer0.pemilihan.pemira.com
+      - peer1.pemilihan.pemira.com
+    certificateAuthorities:
+      - ca.pemilihan.pemira.com
+peers:
+  peer0.pemilihan.pemira.com:
+    url: grpcs://localhost:${P0PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer0.pemilihan.pemira.com
+      hostnameOverride: peer0.pemilihan.pemira.com
+  peer1.pemilihan.pemira.com:
+    url: grpcs://localhost:${P1PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer1.pemilihan.pemira.com
+      hostnameOverride: peer1.pemilihan.pemira.com
+certificateAuthorities:
+  ca.pemilihan.pemira.com:
+    url: https://localhost:${CAPORT}
+    caName: ca-pemilihan
+    tlsCACerts:
+      pem:
+        - |
+          ${CAPEM}
+    httpOptions:
+      verify: false
