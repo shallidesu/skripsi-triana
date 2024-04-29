@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # imports  
-. scripts/envVar.sh
-. scripts/utils.sh
+source ./scripts/envVar.sh
+source ./scripts/utils.sh
 
 #ini kasus kalau bikinnya pisah-pisah, bukan dengan network.sh
 export PATH=${PWD}/../bin:$PATH
-# export FABRIC_CFG_PATH=${PWD}/configtx
+export FABRIC_CFG_PATH=${PWD}/configtx
 
 CHANNEL_NAME="$1"
 DELAY="$2"
@@ -81,30 +81,31 @@ joinChannel() {
 }
 
 setAnchorPeer() {
-  ${CONTAINER_CLI} exec cli ./scripts/setAnchorPeer.sh $CHANNEL_NAME 
+#   ${CONTAINER_CLI} exec cli ./scripts/setAnchorPeer.sh $CHANNEL_NAME
+	scripts/setAnchorPeer.sh $CHANNEL_NAME
 }
 
 FABRIC_CFG_PATH=${PWD}/configtx
 
-## Create channel genesis block
+# Create channel genesis block
 infoln "Generating channel genesis block '${CHANNEL_NAME}.block'"
 createChannelGenesisBlock
 
 FABRIC_CFG_PATH=$PWD/../config/
 BLOCKFILE="./channel-artifacts/${CHANNEL_NAME}.block"
 
-## Create channel
+# Create channel
 infoln "Creating channel ${CHANNEL_NAME}"
 createChannel
 successln "Channel '$CHANNEL_NAME' created"
 
-## Join all the peers to the channel
+# Join all the peers to the channel
 infoln "Joining pemilihan peer0 to the channel..."
 joinChannel 0
 infoln "Joining pemilihan peer1 to the channel..."
 joinChannel 1
 
-## Set the anchor peers for each org in the channel
+# Set the anchor peers for each org in the channel
 infoln "Setting anchor peer for pemilihan..."
 setAnchorPeer
 

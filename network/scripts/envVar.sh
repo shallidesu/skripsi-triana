@@ -14,9 +14,6 @@ export CORE_PEER_TLS_ENABLED=true
 export ORDERER_CA=${PWD}/organizations/ordererOrganizations/pemira.com/tlsca/tlsca.pemira.com-cert.pem
 export PEER0_PEMILIHAN_CA=${PWD}/organizations/peerOrganizations/pemilihan.pemira.com/tlsca/tlsca.pemilihan.pemira.com-cert.pem
 export PEMILIHAN_MSP=${PWD}/organizations/peerOrganizations/pemilihan.pemira.com/users/Admin@pemilihan.pemira.com/msp
-# export FABRIC_CFG_PATH=${PWD}/configtx
-export ORDERER_ADMIN_TLS_SIGN_CERT=${PWD}/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/server.crt
-export ORDERER_ADMIN_TLS_PRIVATE_KEY=${PWD}/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/server.key
 
 # Set environment variables for the peer org
 setGlobals() {
@@ -28,8 +25,6 @@ setGlobals() {
     export CORE_PEER_ADDRESS=localhost:7051
   elif [ $PEER -eq 1 ]; then
     export CORE_PEER_ADDRESS=localhost:8051
-  elif [ $PEER -eq 2 ]; then
-    export CORE_PEER_ADDRESS=localhost:9051
   else
     errorln "PEER Unknown"
   fi
@@ -51,7 +46,7 @@ setGlobalsCLI() {
 
   local USING_ORG=""
   PEER=$1
-  export CORE_PEER_ADDRESS=peer0.pemilihan.pemira.com:7051
+  export CORE_PEER_ADDRESS=localhost:7051
   # if [ -z "$OVERRIDE_ORG" ]; then
   #   USING_ORG=$2
   # else

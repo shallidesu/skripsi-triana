@@ -11,7 +11,7 @@ networks:
       name: skripsi-evoting
 
 services:
-  cli:
+  cliPemilihan:
       container_name: cli
       image: hyperledger/fabric-tools:latest
       labels:
@@ -21,7 +21,7 @@ services:
       deploy:
         placement:
           constraints:
-            - node.labels.name == worker1
+            - node.Labels.name == manager
       environment:
         - GOPATH=/opt/gopath
         - FABRIC_LOGGING_SPEC=INFO
@@ -37,6 +37,6 @@ services:
         - peer0.pemilihan.pemira.com
         - peer1.pemilihan.pemira.com
       networks:
-      skripsi-evoting:
-        aliases:
-          - ca.pemilihan.pemira.com
+        skripsi-evoting:
+          aliases:
+            - cli.pemilihan.pemira.com

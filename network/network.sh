@@ -36,10 +36,10 @@ function createOrgs() {
 
   # Create crypto material using Fabric CA
   infoln "Generating certificates using Fabric CA"
-  ${CA_IMAGETAG} docker stack deploy -c $COMPOSE_FILE_CA hlf 2>&1
+  ${CONTAINER_CLI} stack deploy -c ${CONTAINER_CLI}/$COMPOSE_FILE_CA hlf 2>&1
 
   . organizations/fabric-ca/registerEnroll.sh
-
+  
   while :
   do
     if [ ! -f "organizations/fabric-ca/pemilihan/tls-cert.pem" ]; then
@@ -68,8 +68,7 @@ function networkUp() {
     createOrgs
   fi
 
-  COMPOSE_FILES="-c ${COMPOSE_FILE_BASE}"
-  COMPOSE_FILES="${COMPOSE_FILES} -c ${COMPOSE_FILE_COUCH}"
+  ${CONTAINER_CLI} stack deploy -c  ${CONTAINER_CLI}/$COMPOSE_FILE_BASE -c  ${CONTAINER_CLI}/$COMPOSE_FILE_COUCH -c  ${CONTAINER_CLI}/$COMPOSE_FILE_CLI hlf 2>&1
 
   $CONTAINER_CLI ps -a
   if [ $? -ne 0 ]; then
@@ -102,7 +101,6 @@ function createChannel() {
     infoln "Bringing up network"
     networkUp
   fi
-
   # now run the script that creates a channel. This script uses configtxgen once
   # to create the channel creation transaction and the anchor peer updates.
   scripts/createChannel.sh $CHANNEL_NAME $CLI_DELAY $MAX_RETRY $VERBOSE
@@ -141,11 +139,12 @@ function networkDown() {
 }
 
 # use this as the default docker-compose yaml definition
-COMPOSE_FILE_BASE=compose-network.yaml
+COMPOSE_FILE_BASE=docker-compose-network.yaml
 # docker-compose.yaml file if you are using couchdb
-COMPOSE_FILE_COUCH=compose-couch.yaml
+COMPOSE_FILE_COUCH=docker-compose-couch.yaml
 # certificate authorities compose file
-COMPOSE_FILE_CA=compose-ca.yaml
+COMPOSE_FILE_CA=docker-compose-ca.yaml
+COMPOSE_FILE_CLI=docker-compose-cli.yaml
 #
 # default ca image tag
 CA_IMAGETAG="latest"
