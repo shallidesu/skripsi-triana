@@ -31,7 +31,7 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       # - ../organizations/fabric-ca/pemilihan:/etc/hyperledger/fabric-ca-server
-      - /home/ubuntu/skripsi-triana/network/organizations/fabric-ca/pemilihan:/etc/hyperledger/fabric-ca-server
+      - /home/ubuntu/skripsi-triana/network-v2/organizations/fabric-ca/pemilihan:/etc/hyperledger/fabric-ca-server
     container_name: ca_pemilihan
     networks:
       skripsi-evoting:

@@ -20,11 +20,9 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.name == manager
+          - node.Labels.name == manager
     container_name: orderer.pemira.com
     image: hyperledger/fabric-orderer:latest
-    # labels:
-    #   service: hyperledger-fabric
     environment:
       - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -49,21 +47,21 @@ services:
       - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7053
-      - ORDERER_OPERATIONS_LISTENADDRESS=orderer.pemira.com:8443
+      # - ORDERER_OPERATIONS_LISTENADDRESS=orderer.pemira.com:8443
       - ORDERER_METRICS_PROVIDER=prometheus
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
       # - ../organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
       # - ../organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
-      - /home/ubuntu/skripsi-triana/network-v2/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      # - /home/ubuntu/skripsi-triana/network/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - /home/ubuntu/skripsi-triana/network-v2/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
       - /home/ubuntu/skripsi-triana/network-v2/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
       - ordererpemiracom:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
       - 7053:7053
-      - 8443:8443
+      # - 8443:8443
     networks:
       skripsi-evoting:
         aliases:
@@ -73,11 +71,9 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.name == manager
+          - node.Labels.name == manager
     container_name: peer0.pemilihan.pemira.com
     image: hyperledger/fabric-peer:latest
-    labels:
-      service: hyperledger-fabric
     environment:
       #Generic peer variables
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -100,13 +96,12 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.pemilihan.pemira.com:7051
       - CORE_PEER_LOCALMSPID=PemilihanMSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.pemilihan.pemira.com:8444
+      # - CORE_OPERATIONS_LISTENADDRESS=peer0.pemilihan.pemira.com:8444
       - CORE_METRICS_PROVIDER=prometheus
       - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0pemilihan"}
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
     volumes:
       - /var/run/:/host/var/run/
-      # - ../organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com:/etc/hyperledger/fabric
       - /home/ubuntu/skripsi-triana/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
       - /home/ubuntu/skripsi-triana/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer0.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
       - peer0pemilihanpemiracom:/var/hyperledger/production
@@ -114,7 +109,7 @@ services:
     command: peer node start
     ports:
       - 7051:7051
-      - 8444:8444
+      # - 8444:8444
     networks:
       skripsi-evoting:
         aliases:
@@ -124,11 +119,9 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.name == worker1
+          - node.Labels.name == worker1
     container_name: peer1.pemilihan.pemira.com
     image: hyperledger/fabric-peer:latest
-    labels:
-      service: hyperledger-fabric
     environment:
       #Generic peer variables
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -151,21 +144,20 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.pemilihan.pemira.com:8051
       - CORE_PEER_LOCALMSPID=PemilihanMSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_OPERATIONS_LISTENADDRESS=peer1.pemilihan.pemira.com:8445
+      # - CORE_OPERATIONS_LISTENADDRESS=peer1.pemilihan.pemira.com:8445
       - CORE_METRICS_PROVIDER=prometheus
       - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer1pemilihan"}
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
     volumes:
       - /var/run/:/host/var/run/
-      # - ../organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com:/etc/hyperledger/fabric
-      - /home/ubuntu/skripsi-triana/network-v2/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
-      - /home/ubuntu/skripsi-triana/network-v2/organizations/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
+      - /home/ubuntu/skripsi-triana/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/msp:/etc/hyperledger/fabric/msp
+      - /home/ubuntu/skripsi-triana/network-v2/organizations/peerOrganizations/pemilihan.pemira.com/peers/peer1.pemilihan.pemira.com/tls:/etc/hyperledger/fabric/tls
       - peer1pemilihanpemiracom:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
       - 8051:8051
-      - 8445:8445
+      # - 8445:8445
     networks:
       skripsi-evoting:
         aliases:
