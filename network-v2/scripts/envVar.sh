@@ -45,6 +45,14 @@ setGlobalsForOrderer() {
   export ORDERER_ADMIN_TLS_PRIVATE_KEY=${PWD}/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/server.key
 }
 
+setGlobalsCLI() {
+  setGlobals 0
+
+  local USING_ORG=""
+  PEER=$1
+  export CORE_PEER_ADDRESS=localhost:7051
+}
+
 parsePeerConnectionParameters() {
   PEER_CONN_PARMS=""
   PEERS=""

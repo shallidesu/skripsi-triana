@@ -88,7 +88,7 @@ joinChannel() {
 # Step three: Set anchor peer
 # ---------------------------------------------------------------------------
 setAnchorPeer() {
-	docker exec "$CLI_NAME" ./scripts/setAnchorPeer.sh $CHANNEL_NAME
+	docker exec $CLI_NAME ./scripts/setAnchorPeer.sh $CHANNEL_NAME
 	# scripts/setAnchorPeer.sh $CHANNEL_NAME
 }
 
