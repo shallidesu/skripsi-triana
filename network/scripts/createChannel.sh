@@ -1,12 +1,8 @@
 #!/bin/bash
 
-# imports  
+# imports
 source ./scripts/envVar.sh
 source ./scripts/utils.sh
-
-#ini kasus kalau bikinnya pisah-pisah, bukan dengan network.sh
-export PATH=${PWD}/../bin:$PATH
-export FABRIC_CFG_PATH=${PWD}/configtx
 
 CHANNEL_NAME="$1"
 DELAY="$2"
@@ -17,12 +13,16 @@ VERBOSE="$4"
 : ${MAX_RETRY:="5"}
 : ${VERBOSE:="false"}
 
-# create folder channel-artifacts
+# ---------------------------------------------------------------------------
+# Create folder channel-artifacts
+# ---------------------------------------------------------------------------
 if [ ! -d "channel-artifacts" ]; then
 	mkdir channel-artifacts
 fi
 
-#Step one: Generate the genesis block of the channel
+# ---------------------------------------------------------------------------
+# Step one: Generate the genesis block of the channel
+# ---------------------------------------------------------------------------
 createChannelGenesisBlock() {
 	which configtxgen
 	if [ "$?" -ne 0 ]; then
@@ -37,6 +37,9 @@ createChannelGenesisBlock() {
   verifyResult $res "Failed to generate channel configuration transaction..."
 }
 
+# ---------------------------------------------------------------------------
+# Step two: Join orderer to the channel
+# ---------------------------------------------------------------------------
 createChannel() {
   	setGlobals 0
 	local rc=1
@@ -58,7 +61,9 @@ createChannel() {
 	verifyResult $res "Channel creation failed"
 }
 
-# joinChannel ORG
+# ---------------------------------------------------------------------------
+# Step three: Join org to the channel
+# ---------------------------------------------------------------------------
 joinChannel() {
 	FABRIC_CFG_PATH=$PWD/../config/
 	PEER=$1
@@ -66,7 +71,6 @@ joinChannel() {
 	echo "pemilihan peer ${PEER}"
 		local rc=1
 		local COUNTER=1
-		## Sometimes Join takes time, hence retry
 		while [ $rc -ne 0 -a $COUNTER -lt $MAX_RETRY ] ; do
 			sleep $DELAY
 			set -x
@@ -80,32 +84,43 @@ joinChannel() {
 		verifyResult $res "After $MAX_RETRY attempts, peer${PEER}.pemilihan has failed to join channel '$CHANNEL_NAME' "
 }
 
+# ---------------------------------------------------------------------------
+# Step three: Set anchor peer
+# ---------------------------------------------------------------------------
 setAnchorPeer() {
-#   ${CONTAINER_CLI} exec cli ./scripts/setAnchorPeer.sh $CHANNEL_NAME
-	scripts/setAnchorPeer.sh $CHANNEL_NAME
+	docker exec $CLI_NAME ./scripts/setAnchorPeer.sh $CHANNEL_NAME
+	# scripts/setAnchorPeer.sh $CHANNEL_NAME
 }
 
 FABRIC_CFG_PATH=${PWD}/configtx
 
+# ---------------------------------------------------------------------------
 # Create channel genesis block
+# ---------------------------------------------------------------------------
 infoln "Generating channel genesis block '${CHANNEL_NAME}.block'"
 createChannelGenesisBlock
 
 FABRIC_CFG_PATH=$PWD/../config/
 BLOCKFILE="./channel-artifacts/${CHANNEL_NAME}.block"
 
+# ---------------------------------------------------------------------------
 # Create channel
+# ---------------------------------------------------------------------------
 infoln "Creating channel ${CHANNEL_NAME}"
 createChannel
 successln "Channel '$CHANNEL_NAME' created"
 
+# ---------------------------------------------------------------------------
 # Join all the peers to the channel
+# ---------------------------------------------------------------------------
 infoln "Joining pemilihan peer0 to the channel..."
 joinChannel 0
 infoln "Joining pemilihan peer1 to the channel..."
 joinChannel 1
 
+# ---------------------------------------------------------------------------
 # Set the anchor peers for each org in the channel
+# ---------------------------------------------------------------------------
 infoln "Setting anchor peer for pemilihan..."
 setAnchorPeer
 

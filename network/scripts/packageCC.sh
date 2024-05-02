@@ -17,62 +17,33 @@ println "- CC_VERSION: ${C_GREEN}${CC_VERSION}${C_RESET}"
 
 FABRIC_CFG_PATH=$PWD/../config/
 
-#User has not provided a name
+# ---------------------------------------------------------------------------
+# User has not provided a name
+# ---------------------------------------------------------------------------
 if [ -z "$CC_NAME" ] || [ "$CC_NAME" = "NA" ]; then
   fatalln "No chaincode name was provided. Valid call example: ./network.sh packageCC -ccn basic -ccp chaincode/asset-transfer-basic/chaincode-go -ccv 1.0.0 -ccl go"
 
+# ---------------------------------------------------------------------------
 # User has not provided a path
+# ---------------------------------------------------------------------------
 elif [ -z "$CC_SRC_PATH" ] || [ "$CC_SRC_PATH" = "NA" ]; then
   fatalln "No chaincode path was provided. Valid call example: ./network.sh packageCC -ccn basic -ccp chaincode/asset-transfer-basic/chaincode-go -ccv 1.0.0 -ccl go"
 
+# ---------------------------------------------------------------------------
 # User has not provided a language
+# ---------------------------------------------------------------------------
 elif [ -z "$CC_SRC_LANGUAGE" ] || [ "$CC_SRC_LANGUAGE" = "NA" ]; then
   fatalln "No chaincode language was provided. Valid call example: ./network.sh packageCC -ccn basic -ccp chaincode/asset-transfer-basic/chaincode-go -ccv 1.0.0 -ccl go"
 
-## Make sure that the path to the chaincode exists
+# ---------------------------------------------------------------------------
+# Make sure that the path to the chaincode exists
+# ---------------------------------------------------------------------------
 elif [ ! -d "$CC_SRC_PATH" ]; then
   fatalln "Path to chaincode does not exist. Please provide different path."
 fi
 
 CC_SRC_LANGUAGE=$(echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:])
-
-# do some language specific preparation to the chaincode before packaging
-if [ "$CC_SRC_LANGUAGE" = "go" ]; then
-  CC_RUNTIME_LANGUAGE=golang
-
-  infoln "Vendoring Go dependencies at $CC_SRC_PATH"
-  pushd $CC_SRC_PATH
-  GO111MODULE=on go mod vendor
-  popd
-  successln "Finished vendoring Go dependencies"
-
-elif [ "$CC_SRC_LANGUAGE" = "java" ]; then
-  CC_RUNTIME_LANGUAGE=java
-
-  infoln "Compiling Java code..."
-  pushd $CC_SRC_PATH
-  ./gradlew installDist
-  popd
-  successln "Finished compiling Java code"
-  CC_SRC_PATH=$CC_SRC_PATH/build/install/$CC_NAME
-
-elif [ "$CC_SRC_LANGUAGE" = "javascript" ]; then
-  CC_RUNTIME_LANGUAGE=node
-
-elif [ "$CC_SRC_LANGUAGE" = "typescript" ]; then
-  CC_RUNTIME_LANGUAGE=node
-
-  infoln "Compiling TypeScript code into JavaScript..."
-  pushd $CC_SRC_PATH
-  npm install
-  npm run build
-  popd
-  successln "Finished compiling TypeScript code into JavaScript"
-
-else
-  fatalln "The chaincode language ${CC_SRC_LANGUAGE} is not supported by this script. Supported chaincode languages are: go, java, javascript, and typescript"
-  exit 1
-fi
+CC_RUNTIME_LANGUAGE=node
 
 verifyResult() {
   if [ $1 -ne 0 ]; then
@@ -91,7 +62,9 @@ packageChaincode() {
   successln "Chaincode is packaged"
 }
 
-## package the chaincode
+# ---------------------------------------------------------------------------
+# Package the chaincode
+# ---------------------------------------------------------------------------
 packageChaincode
 
 exit 0

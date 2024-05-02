@@ -18,15 +18,15 @@ function installChaincode() {
 
 # queryInstalled PEER ORG
 function queryInstalled() {
-  PEER=$1
-  setGlobals $PEER
+  # PEER=$1
+  setGlobals 0
   set -x
   peer lifecycle chaincode queryinstalled --output json | jq -r 'try (.installed_chaincodes[].package_id)' | grep ^${PACKAGE_ID}$ >&log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt
-  verifyResult $res "Query installed on peer${PEER}.pemilihan has failed"
-  successln "Query installed successful on peer${PEER}.pemilihan on channel"
+  verifyResult $res "Query installed on peer0.pemilihan has failed"
+  successln "Query installed successful on peer0.pemilihan on channel"
 }
 
 # approveForMyOrg VERSION PEER ORG
@@ -76,20 +76,6 @@ function checkCommitReadiness() {
 
 # commitChaincodeDefinition VERSION PEER ORG (PEER ORG)...
 function commitChaincodeDefinition() {
-  # set -x
-  # peer lifecycle chaincode commit -o localhost:7050 \
-  #       --ordererTLSHostnameOverride orderer.pemira.com --tls --cafile "$ORDERER_CA" \
-  #       --channelID $CHANNEL_NAME --name ${CC_NAME} \
-  #       --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_PEMILIHAN_CA \
-  #       --peerAddresses localhost:8051 --tlsRootCertFiles $PEER1_PEMILIHAN_CA \
-  #       --peerAddresses localhost:9051 --tlsRootCertFiles $PEER2_PEMILIHAN_CA \
-  #       --version ${CC_VERSION} --sequence ${CC_SEQUENCE} ${INIT_REQUIRED} ${CC_END_POLICY} ${CC_COLL_CONFIG} >&log.txt
-  # res=$?
-  # { set +x; } 2>/dev/null
-
-  # cat log.txt
-  # verifyResult $res "Chaincode definition commit failed on peer0.org1 on channel '$CHANNEL_NAME' failed"
-  # successln "Chaincode definition committed on channel '$CHANNEL_NAME'"
   parsePeerConnectionParameters $@
   res=$?
   verifyResult $res "Invoke transaction failed on channel '$CHANNEL_NAME' due to uneven number of peer and org parameters "
@@ -108,7 +94,6 @@ function commitChaincodeDefinition() {
 
 # queryCommitted ORG
 function queryCommitted() {
-  # PEER=$1
   setGlobals 0
   EXPECTED_RESULT="Version: ${CC_VERSION}, Sequence: ${CC_SEQUENCE}, Endorsement Plugin: escc, Validation Plugin: vscc"
   infoln "Querying chaincode definition on peer0.pemilihan on channel '$CHANNEL_NAME'..."

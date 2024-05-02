@@ -1,7 +1,7 @@
 #!/bin/bash
-source ./scripts/utils.sh
 
 #ini kasus kalau bikinnya pisah-pisah, bukan dengan network.sh
+. scripts/utils.sh
 export PATH=${PWD}/../bin:$PATH
 
 function registerPeer() {

@@ -57,7 +57,6 @@ services:
       - "18054:18054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      # - ../organizations/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
       - /home/ubuntu/skripsi-triana/network/organizations/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
     container_name: ca_orderer
     networks:

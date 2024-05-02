@@ -15,7 +15,9 @@ export ORDERER_CA=${PWD}/organizations/ordererOrganizations/pemira.com/tlsca/tls
 export PEER0_PEMILIHAN_CA=${PWD}/organizations/peerOrganizations/pemilihan.pemira.com/tlsca/tlsca.pemilihan.pemira.com-cert.pem
 export PEMILIHAN_MSP=${PWD}/organizations/peerOrganizations/pemilihan.pemira.com/users/Admin@pemilihan.pemira.com/msp
 
+# ---------------------------------------------------------------------------
 # Set environment variables for the peer org
+# ---------------------------------------------------------------------------
 setGlobals() {
   PEER=$1
   export CORE_PEER_LOCALMSPID="PemilihanMSP"
@@ -34,7 +36,9 @@ setGlobals() {
   fi
 }
 
-#environment variables for orderer service
+# ---------------------------------------------------------------------------
+# Environment variables for orderer service
+# ---------------------------------------------------------------------------
 setGlobalsForOrderer() {
   export CORE_PEER_LOCALMSPID="OrdererMSP"
   export ORDERER_ADMIN_TLS_SIGN_CERT=${PWD}/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/server.crt
@@ -47,24 +51,6 @@ setGlobalsCLI() {
   local USING_ORG=""
   PEER=$1
   export CORE_PEER_ADDRESS=localhost:7051
-  # if [ -z "$OVERRIDE_ORG" ]; then
-  #   USING_ORG=$2
-  # else
-  #   USING_ORG="${OVERRIDE_ORG}"
-  # fi
-  # if [ $USING_ORG -eq 1 ]; then
-  #   if [ $PEER -eq 0 ]; then
-  #     export CORE_PEER_ADDRESS=peer0.pemilihan.pemira.com:7051
-  #   elif [ $PEER -eq 1 ]; then
-  #     export CORE_PEER_ADDRESS=peer1.pemilihan.pemira.com:8051
-  #   elif [ $PEER -eq 2 ]; then
-  #     export CORE_PEER_ADDRESS=peer2.pemilihan.pemira.com:9051
-  #   else
-  #     errorln "Peer Unknown"
-  #   fi
-  # else
-  #   errorln "ORG Unknown"
-  # fi
 }
 
 parsePeerConnectionParameters() {
@@ -91,7 +77,6 @@ parsePeerConnectionParameters() {
   # remove leading space for output
   PEERS="$(echo -e "$PEERS" | sed -e 's/^[[:space:]]*//')"
 }
-
 
 verifyResult() {
   if [ $1 -ne 0 ]; then

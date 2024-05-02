@@ -52,9 +52,6 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
-      # - ../organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
-      # - ../organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
-      # - /home/ubuntu/skripsi-triana/network/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - /home/ubuntu/skripsi-triana/network/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/msp:/var/hyperledger/orderer/msp
       - /home/ubuntu/skripsi-triana/network/organizations/ordererOrganizations/pemira.com/orderers/orderer.pemira.com/tls/:/var/hyperledger/orderer/tls
       - ordererpemiracom:/var/hyperledger/production/orderer

@@ -14,18 +14,9 @@
 ################################################################################
 Organizations:
   - &OrdererOrg
-    # SampleOrg defines an MSP using the sampleconfig.  It should never be used
-    # in production but may be used as a template for other definitions
-    # DefaultOrg defines the organization which is used in the sampleconfig
-    # of the fabric.git development environment
     Name: OrdererOrg
-    # ID to load the MSP definition as
     ID: OrdererMSP
-    # MSPDir is the filesystem path which contains the MSP configuration
     MSPDir: ../organizations/ordererOrganizations/pemira.com/msp
-    # Policies defines the set of policies at this level of the config tree
-    # For organization policies, their canonical path is usually
-    #   /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
     Policies:
       Readers:
         Type: Signature
@@ -36,22 +27,13 @@ Organizations:
       Admins:
         Type: Signature
         Rule: "OR('OrdererMSP.admin')"
-    # OrdererEndpoints is a list of all orderers this org runs which clients
-    # and peers may to connect to to push transactions and receive blocks respectively.
     OrdererEndpoints:
       - orderer.pemira.com:7050
       
   - &Pemilihan
-    # DefaultOrg defines the organization which is used in the sampleconfig
-    # of the fabric.git development environment
-    Name: PemilihanMSP #informal name used to identify the organizations
-    # ID to load the MSP definition as
+    Name: PemilihanMSP
     ID: PemilihanMSP
-    # MSPDir is the path to an MSP folder that was created by the organization
     MSPDir: ../organizations/peerOrganizations/pemilihan.pemira.com/msp
-    # Policies defines the set of policies at this level of the config tree
-    # For organization policies, their canonical path is usually
-    #   /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
     Policies:
       Readers:
         Type: Signature

@@ -58,15 +58,18 @@ FABRIC_CFG_PATH=$PWD/../config/
 
 PACKAGE_ID=$(peer lifecycle chaincode calculatepackageid ${CC_NAME}.tar.gz)
 
-Install chaincode on peer0.pemilihan, peer1.pemilihan
+## Install chaincode on peer0.pemilihan, peer1.pemilihan, peer2.pemilihan
 infoln "Installing chaincode on peer0.pemilihan..."
 installChaincode 0
-infoln "Installing chaincode on peer1.pemilihan..."
-installChaincode 1
+# infoln "Installing chaincode on peer1.pemilihan..."
+# installChaincode 1
+# infoln "Installing chaincode on peer2.pemilihan..."
+# installChaincode 2
 
 ## query whether the chaincode is installed
 queryInstalled 0
 queryInstalled 1
+queryInstalled 2
 
 ## approve the definition for pemilihan
 approveForMyOrg 0
@@ -79,9 +82,9 @@ commitChaincodeDefinition
 
 ## query on orgs to see that the definition committed successfully
 queryCommitted
+# queryCommitted 1
+# queryCommitted 2
 
-## Invoke the chaincode - this does require that the chaincode have the 'initLedger'
-## method defined
 if [ "$CC_INIT_FCN" = "NA" ]; then
   infoln "Chaincode initialization is not required"
 else
