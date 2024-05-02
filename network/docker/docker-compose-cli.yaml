@@ -13,7 +13,7 @@ networks:
 services:
   cliPemilihan:
       container_name: cli
-      image: hyperledger/fabric-tools:2.5.7
+      image: hyperledger/fabric-tools:latest
       labels:
         service: hyperledger-fabric
       tty: true
