@@ -16,7 +16,7 @@ services:
       placement:
         constraints:
           - node.labels.name == manager
-    image: hyperledger/fabric-ca:latest
+    image: hyperledger/fabric-ca:1.5.10
     # labels:
     #   service: hyperledger-fabric
     environment:
@@ -43,7 +43,7 @@ services:
       placement:
         constraints:
           - node.labels.name == manager
-    image: hyperledger/fabric-ca:latest
+    image: hyperledger/fabric-ca:1.5.10
     # labels:
     #   service: hyperledger-fabric
     environment:
