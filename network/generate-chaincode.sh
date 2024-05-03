@@ -2,6 +2,8 @@
 
 # imports  
 source ./.env
+source ./scripts/utils.sh
+
 export PATH=${ROOTDIR}/../bin:${PWD}/../bin:$PATH
 export FABRIC_CFG_PATH=${PWD}/configtx
 
