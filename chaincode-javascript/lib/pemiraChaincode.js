@@ -487,29 +487,39 @@ class PemiraChaincode extends Contract {
           args = JSON.parse(args);
           console.info(args);
 
-          let suara = JSON.parse(await this.QueryAssetBySelector(ctx, JSON.stringify(args))); //cari suara berdasarkan idpaslon
-          let suaraRecord = suara.map(item => item.Record); //nanti hasilnya tu ada kelas-kelas yang termasuk ke dalam id paslon tersebut
+          let suara = JSON.parse(await this.QueryAssetBySelector(ctx, JSON.stringify(args))); //cari suara berdasarkan idpaslon (suara by idpaslon)
+          let suaraRecord = suara.map(item => item.Record); //nanti hasilnya tu ada [{idsuara1},{idsuara2}] yang termasuk ke dalam id paslon tersebut
+          
+          //dari id suara di dalam suaraRecord, masing-masing dicari history nya
+          let suaraMapping = await Promise.all(suaraRecord.map(async(item) => {
+            let suaraIterator = await ctx.stub.getHistoryForKey(item.id);
+              return this._GetAllResults(suaraIterator, true); //[[{history1 idsuara1},{history2 idsuara1}], [{history1 idsuara2},{history2 idsuara2}]]
+          }));
           
           if (args.fcn === 'total'){
-              let suaraIterasi = suaraRecord.map(async(item) => {
-                  return item.jumlah;
-              }); //karena suaraRecord tu bentuknya masih [{}, {}, {}] jadi harus diiterasi mapping
+              //dari record history suara per id, masing-masing diambil hanya field jumlah untuk histori yang paling baru
+              let suaraIterasi = suaraMapping.map(async(item) => {
+                  return item[0].Value.jumlah; //diambil yang paling depan karena mau dilihat history terakhir aja
+              });  //{jumlah:jumlah1},{jumlah:jumlah2},..
 
               let result = await Promise.all(suaraIterasi); //ini hasilnya array yang nilainya 'jumlah' dari masing-masing kelas pada id paslon tersebut
+              
+              console.info(result);
               return (result.reduce((acc, curr) => acc + curr, 0));
               //result.reduce = dia iterasi setiap elemen dalam array result
               //acc = accumulator = nilai awal = 0 lalu berubah mengikuti nilai acc + curr
               //curr = elemen yang diiterasi saat ini
           } else {
-              let suaraIterasi = suaraRecord.map(async(item) => {
+              let suaraIterasi = suaraMapping.map(async(item) => {
                 let suaraperkelas = {
-                  'id_kelas': item.id_kelas,
-                  'jumlah': item.jumlah
+                  'id_kelas': item[0].Value.id_kelas,
+                  'jumlah': item[0].Value.jumlah
                 }
                 return suaraperkelas;
-              }); //karena suaraRecord tu bentuknya masih [{}, {}, {}] jadi harus diiterasi mapping
-              
+              }); //karena suaraRecord tu bentuknya masih [{}, {}, {}] jadi harus diiterasi mapping        
+
               let result = await Promise.all(suaraIterasi); //ini hasilnya array yang nilainya [ {}, {}]
+              console.info(result);
               return result;
           }
       } catch (error){
@@ -605,15 +615,15 @@ class PemiraChaincode extends Contract {
           queryString.selector.id_pemilihan = args.id_pemilihan;
       }
 
-      let asset = JSON.parse(await this.GetQueryResultForQueryString(ctx, JSON.stringify(queryString)));
+      let asset = JSON.parse(await this.GetQueryResultForQueryString(ctx, JSON.stringify(queryString))); //cari ID suara
       let assetRecord = asset.map(item => item.Record);
       console.info(assetRecord);
 
       let results = await Promise.all(assetRecord.map(async(item) => {
           let resultsIterator = await ctx.stub.getHistoryForKey(item.id);
-          return this._GetAllResults(resultsIterator, true); //[{},{}]
-      }));
-      
+          return this._GetAllResults(resultsIterator, true);
+      })); // [[{}],[{},{}]]
+
       return JSON.stringify(results);
     }
 
