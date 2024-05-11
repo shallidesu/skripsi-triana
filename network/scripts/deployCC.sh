@@ -61,15 +61,17 @@ PACKAGE_ID=$(peer lifecycle chaincode calculatepackageid ${CC_NAME}.tar.gz)
 ## Install chaincode on peer0.pemilihan
 infoln "Installing chaincode on peer0.pemilihan..."
 installChaincode 0
+infoln "Installing chaincode on peer1.pemilihan..."
+installChaincode 1
 
 ## query whether the chaincode is installed
-queryInstalled
+queryInstalled 0
 
 ## approve the definition for pemilihan
-approveForMyOrg 0
+approveForMyOrg
 
 ## check whether the chaincode definition is ready to be committed
-checkCommitReadiness 0 "\"PemilihanMSP\": true"
+checkCommitReadiness "\"PemilihanMSP\": true"
 
 ## now that we know for sure orgs have approved, commit the definition
 commitChaincodeDefinition

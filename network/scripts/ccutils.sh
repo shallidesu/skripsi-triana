@@ -18,44 +18,44 @@ function installChaincode() {
 
 # queryInstalled PEER ORG
 function queryInstalled() {
-  # PEER=$1
-  setGlobals 0
+  PEER=$1
+  setGlobals $PEER
   set -x
   peer lifecycle chaincode queryinstalled --output json | jq -r 'try (.installed_chaincodes[].package_id)' | grep ^${PACKAGE_ID}$ >&log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt
-  verifyResult $res "Query installed on peer0.pemilihan has failed"
-  successln "Query installed successful on peer0.pemilihan on channel"
+  verifyResult $res "Query installed on peer${PEER}.pemilihan has failed"
+  successln "Query installed successful on peer${PEER}.pemilihan on channel"
 }
 
 # approveForMyOrg VERSION PEER ORG
 function approveForMyOrg() {
-  PEER=$1
-  setGlobals $PEER
+  # PEER=$1
+  setGlobals 0
 
   set -x
   peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.pemira.com --tls --cafile "$ORDERER_CA" --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${CC_VERSION} --package-id ${PACKAGE_ID} --sequence ${CC_SEQUENCE} ${INIT_REQUIRED} ${CC_END_POLICY} ${CC_COLL_CONFIG} >&log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt
-  verifyResult $res "Chaincode definition approved on peer${PEER}.pemilihan on channel '$CHANNEL_NAME' failed"
-  successln "Chaincode definition approved on peer${PEER}.pemilihan on channel '$CHANNEL_NAME'"
+  verifyResult $res "Chaincode definition approved on peer0.pemilihan on channel '$CHANNEL_NAME' failed"
+  successln "Chaincode definition approved on peer0.pemilihan on channel '$CHANNEL_NAME'"
 }
 
 # checkCommitReadiness VERSION PEER ORG
 function checkCommitReadiness() {
-  PEER=$1
+  # PEER=$1
   shift 1
-  setGlobals $PEER
-  infoln "Checking the commit readiness of the chaincode definition on peer${PEER}.pemilihan on channel '$CHANNEL_NAME'..."
+  setGlobals 0
+  infoln "Checking the commit readiness of the chaincode definition on peer0.pemilihan on channel '$CHANNEL_NAME'..."
   local rc=1
   local COUNTER=1
   # continue to poll
   # we either get a successful response, or reach MAX RETRY
   while [ $rc -ne 0 -a $COUNTER -lt $MAX_RETRY ]; do
     sleep $DELAY
-    infoln "Attempting to check the commit readiness of the chaincode definition on peer${PEER}.pemilihan, Retry after $DELAY seconds."
+    infoln "Attempting to check the commit readiness of the chaincode definition on peer0.pemilihan, Retry after $DELAY seconds."
     set -x
     peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${CC_VERSION} --sequence ${CC_SEQUENCE} ${INIT_REQUIRED} ${CC_END_POLICY} ${CC_COLL_CONFIG} --output json >&log.txt
     res=$?
@@ -68,9 +68,9 @@ function checkCommitReadiness() {
   done
   cat log.txt
   if test $rc -eq 0; then
-    infoln "Checking the commit readiness of the chaincode definition successful on peer${PEER}.pemilihan on channel '$CHANNEL_NAME'"
+    infoln "Checking the commit readiness of the chaincode definition successful on peer0.pemilihan on channel '$CHANNEL_NAME'"
   else
-    fatalln "After $MAX_RETRY attempts, Check commit readiness result on peer${PEER}.pemilihan is INVALID!"
+    fatalln "After $MAX_RETRY attempts, Check commit readiness result on peer0.pemilihan is INVALID!"
   fi
 }
 
