@@ -19,9 +19,9 @@ const fs = require('fs').promises;
 const channelName = process.env.CHANNEL_NAME || 'pemirastischannel';
 const chaincodeName = process.env.CHAINCODE_NAME || 'pemiraChaincode';
 
-const mspOrg = 'PemilihanMSP';
+const mspOrg = 'Org1MSP';
 const walletPath = path.join(__dirname, 'wallet');
-const idOrg = 'Pemilihan';
+const idOrg = 'Org1';
 
 const registerUser = require('./app/registerUser');
 const invoke = require('./app/invoke');
@@ -278,7 +278,6 @@ app.put('/pemilihan/edit/:id', async(req,res) => {
         const pemilihanStringify = JSON.stringify(pemilihan);
         
         let pemilihanByJudul;
-        let pemilihanRecord;
         if (pemilihan.cek === 0) {
             delete pemilihan.cek;
             console.log(pemilihanStringify);
@@ -289,8 +288,8 @@ app.put('/pemilihan/edit/:id', async(req,res) => {
             delete pemilihan.cek;
             pemilihanByJudul = await query.queryTransaction(channelName, idOrg, chaincodeName, req.email, pemilihan['judul'], "ValidasiPemilihanByJudul", walletPath);
             pemilihanByJudul = JSON.parse(pemilihanByJudul);
-            pemilihanRecord = pemilihanByJudul.map(item => item.Record);
-            judul = pemilihanRecord.map(item => item.judul);
+            // pemilihanRecord = pemilihanByJudul.map(item => item.Record);
+            // judul = pemilihanRecord.map(item => item.judul);
 
             if (Object.keys(pemilihanByJudul).length === 0) {
                 // process received data
@@ -373,7 +372,7 @@ app.delete('/pemilihan/delete', async function (req,res) {
         const args = req.body;
         console.log('idpemilihan'+JSON.stringify(args));
         const argsStringify = JSON.stringify(args);
-        const methodName = "DeleteAssetById";
+        const methodName = "DeletePemilihanById";
 
         await invoke.invokeTransaction(channelName, idOrg, chaincodeName, req.email, methodName, argsStringify, walletPath);
         
@@ -730,7 +729,7 @@ app.get('/suara/gethistory', async function (req,res) {
         console.log(args);
 
         const suara = JSON.parse(await query.queryTransaction(channelName, idOrg, chaincodeName, req.email, argsStringify, methodName, walletPath));
-        console.log(suara); // [[{}],[{},{}]
+        console.log(suara); // [[{}],[{},{}]]
 
         let allResponses = [];
 
@@ -756,7 +755,7 @@ app.get('/suara/gethistory', async function (req,res) {
                 }
             } 
         }
-        console.log(allResponses);
+        console.log(allResponses); //[]
         res.send(allResponses);
     } catch (error) {
         res.send(error)
