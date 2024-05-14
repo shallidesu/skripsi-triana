@@ -26,7 +26,9 @@ class PemiraChaincode extends Contract {
             //define tanggaldibuat dan tanggaldiperbarui
             const timestamp = Date.now();
             const date = new Date(parseInt(timestamp) + 25200000);
-            const tanggalDibuat = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2) + ':' + ("0" + date.getSeconds()).slice(-2) + ' WIB';
+            const tanggalDibuat = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + 
+              ("0" + date.getDate()).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ':' + 
+              ("0" + date.getMinutes()).slice(-2) + ':' + ("0" + date.getSeconds()).slice(-2) + ' WIB';
             const tanggalDiperbarui = tanggalDibuat;
            
             //create asset object and marshall to JSON
@@ -43,6 +45,7 @@ class PemiraChaincode extends Contract {
               tanggalDiperbarui: tanggalDiperbarui,
               publikasikan: 0,
             }
+            console.info(pemilihan);
     
             //save asset to state
             await ctx.stub.putState(args.idPemilihan, Buffer.from(stringify(pemilihan)));
@@ -57,7 +60,6 @@ class PemiraChaincode extends Contract {
         try {
             console.info('============= CREATE ASET PASLON ===========');
             args = JSON.parse(args);
-            console.info(args);
 
             //periksa ada tidaknya id pemilihan
             const exists = await this.AssetExists(ctx, args.id_pemilihan);
@@ -88,6 +90,7 @@ class PemiraChaincode extends Contract {
               paslon.foto_wakil = args.foto_wakil;
             }
     
+            console.info(paslon);
             // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
             await ctx.stub.putState(args.idPaslon, Buffer.from(stringify(paslon)));
             return JSON.stringify(args.idPaslon);
@@ -100,7 +103,6 @@ class PemiraChaincode extends Contract {
         try {
             console.info('============= CREATE ASET MISI ===========');
             args = JSON.parse(args);
-            console.info(args);
 
             let misi = args.map(async(item) => {
               const exists = await this.AssetExists(ctx, item.id_paslon);
@@ -115,6 +117,7 @@ class PemiraChaincode extends Contract {
                 misi: item.misi
               }
               
+              console.info(misi);
               await ctx.stub.putState(item.idMisi, Buffer.from(stringify(misi)));
             });
 
@@ -129,7 +132,6 @@ class PemiraChaincode extends Contract {
         try{
             console.info('============= CREATE ASET PESERTA ===========');
             args = JSON.parse(args);
-            console.info(args);
 
             let peserta = args.map(async(item) => {
             const exists = await this.AssetExists(ctx, item.id_pemilihan);
@@ -147,6 +149,7 @@ class PemiraChaincode extends Contract {
                 isOnline: 0,
               }
 
+              console.info(peserta);
               await ctx.stub.putState(item.idPeserta, Buffer.from(stringify(peserta)));
             });
 
@@ -161,7 +164,6 @@ class PemiraChaincode extends Contract {
         try{
             console.info('============= CREATE ASET SUARA ===========');
             args = JSON.parse(args);
-            console.info(args);
 
             let suara = args.map(async(item) => {
               const exists = await this.AssetExists(ctx, item.id_paslon);
@@ -178,6 +180,7 @@ class PemiraChaincode extends Contract {
                 jumlah: 0
               }
 
+              console.info(suara);
               await ctx.stub.putState(item.idSuara, Buffer.from(stringify(suara)));
             });
 
@@ -192,7 +195,6 @@ class PemiraChaincode extends Contract {
     async UpdatePemilihanById(ctx, args) {
         try {
             args = JSON.parse(args);
-            console.info(args);
 
             //periksa apakah id pemilihan ini memang ada?
             const exists = await this.AssetExists(ctx, args.id);
@@ -241,6 +243,7 @@ class PemiraChaincode extends Contract {
                 updatedPemilihan.publikasikan = args.publikasikan;
               }
             }
+            console.info(updatedPemilihan);
 
             // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
             return ctx.stub.putState(args.id, Buffer.from(stringify(updatedPemilihan)));
@@ -274,7 +277,6 @@ class PemiraChaincode extends Contract {
 
             if (args.fcn === 'total') {
                 console.info('============= UPDATE ASET PASLON ===========');
-                console.info(args);
 
                 //periksa apakah id pemilihan ini memang ada?
                 const exists = await this.AssetExists(ctx, args.id);
@@ -304,11 +306,11 @@ class PemiraChaincode extends Contract {
                   updatedPaslon.foto_wakil = args.foto_wakil
                 }
 
+                console.info(updatedPaslon);
                 // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
                 await ctx.stub.putState(args.id, Buffer.from(stringify(updatedPaslon)));
             } else {
                 console.info('============= UPDATE NOMOR URUT PASLON ===========');
-                console.info(args);
                 let updatedPaslon = args.map(async(item) => {
                   const paslon = await this.ReadAsset(ctx, item.id);
                   updatedPaslon = JSON.parse(paslon);
@@ -330,8 +332,7 @@ class PemiraChaincode extends Contract {
     async UpdateMisiById(ctx, args) {
         console.info('============= UPDATE ASET MISI ===========');
         args = JSON.parse(args);
-        console.info(args);
-
+        
         // overwriting original asset with new asset
         let updatedMisi = args.map(async(item) => {
           const misi = await this.ReadAsset(ctx, item.id);
@@ -351,7 +352,6 @@ class PemiraChaincode extends Contract {
         try {
             console.info('============= QUERY INFORMASI SELURUH PEMILIHAN MILIK PESERTA ===========');
             args = JSON.parse(args);
-            console.info(args);
 
             let queryString = {};
             queryString.selector = {};
@@ -373,8 +373,8 @@ class PemiraChaincode extends Contract {
                 pemilihanData.id_mhs = item.id_mhs;
                 pemilihanData.waktu_memilih = item.waktu_memilih;
                 pemilihanData.isOnline = item.isOnline;
-                // pemilihanData.txId = item.txId;
     
+                console.info(pemilihanData);
                 return pemilihanData;
             }));
             
@@ -438,6 +438,7 @@ class PemiraChaincode extends Contract {
                 }
             }));
 
+            console.info(pesertaPemilihan);
             return pesertaPemilihan; //karena hasilnya cuma 1 pemilihan kan, ga lebih dari 1.
         } catch (error){
             return `Error: ${error.message}`;
@@ -475,6 +476,7 @@ class PemiraChaincode extends Contract {
             let sendSuara = JSON.parse(await this.ReadAsset(ctx, args.id));
             sendSuara.jumlah += 1;
 
+            console.info(sendSuara);
             return ctx.stub.putState(args.id, Buffer.from(stringify(sendSuara)));
         } catch (error){
             return `Error: ${error.message}`;
@@ -485,7 +487,6 @@ class PemiraChaincode extends Contract {
       try {
           console.info('============= HITUNG SUARA PER PASLON KELAS ===========');
           args = JSON.parse(args);
-          console.info(args);
 
           let suara = JSON.parse(await this.QueryAssetBySelector(ctx, JSON.stringify(args))); //cari suara berdasarkan idpaslon (suara by idpaslon)
           let suaraRecord = suara.map(item => item.Record); //nanti hasilnya tu ada [{idsuara1},{idsuara2}] yang termasuk ke dalam id paslon tersebut
@@ -503,9 +504,10 @@ class PemiraChaincode extends Contract {
               });  //{jumlah:jumlah1},{jumlah:jumlah2},..
 
               let result = await Promise.all(suaraIterasi); //ini hasilnya array yang nilainya 'jumlah' dari masing-masing kelas pada id paslon tersebut
-              
+              result = result.reduce((acc, curr) => acc + curr, 0);
+
               console.info(result);
-              return (result.reduce((acc, curr) => acc + curr, 0));
+              return (result);
               //result.reduce = dia iterasi setiap elemen dalam array result
               //acc = accumulator = nilai awal = 0 lalu berubah mengikuti nilai acc + curr
               //curr = elemen yang diiterasi saat ini
@@ -519,6 +521,7 @@ class PemiraChaincode extends Contract {
               }); //karena suaraRecord tu bentuknya masih [{}, {}, {}] jadi harus diiterasi mapping        
 
               let result = await Promise.all(suaraIterasi); //ini hasilnya array yang nilainya [ {}, {}]
+              
               console.info(result);
               return result;
           }
@@ -526,6 +529,33 @@ class PemiraChaincode extends Contract {
           return `Error: ${error.message}`;
       }
     }
+
+    // DeleteAsset deletes an given asset from the world state.
+    async DeletePemilihanById(ctx, id) {
+      try {
+          console.info('============= HAPUS ASET BY ID ASET ===========');
+          const idObj = JSON.parse(id);
+
+          let queryString = {};
+          queryString.selector = {};
+          queryString.selector.docType = 'Peserta';
+          queryString.selector.id_pemilihan = idObj.id;
+    
+          let peserta = JSON.parse(await this.GetQueryResultForQueryString(ctx, JSON.stringify(queryString))); //cari peserta berdasarkan id pemilihan
+          let pesertaRecord = peserta.map(item => item.Record);
+          await Promise.all(pesertaRecord.map(async(item) => {
+              ctx.stub.deleteState(item.id);
+          }));
+
+          const Pemilihanexists = await this.AssetExists(ctx, idObj.id);
+          if (!Pemilihanexists) {
+              throw new Error(`ID ${idObj.id} ini belum terdaftar`);
+          }
+          return ctx.stub.deleteState(idObj.id);
+      } catch (error){
+          return `Error: ${error.message}`;
+      }
+  }
 
     // DeleteAsset deletes an given asset from the world state.
     async DeleteAssetById(ctx, id) {
@@ -557,7 +587,6 @@ class PemiraChaincode extends Contract {
         try {
             console.info('============= QUERY ASET OLEH SELECTOR ===========');
             args = JSON.parse(args);
-            console.info(args);
 
             let queryString = {};
             queryString.selector = {};
@@ -576,6 +605,7 @@ class PemiraChaincode extends Contract {
                 queryString.selector.id = args.value;
               }
             }
+            console.info(queryString);
       
             return await this.GetQueryResultForQueryString(ctx, JSON.stringify(queryString));
         } catch (error){
@@ -590,6 +620,8 @@ class PemiraChaincode extends Contract {
             if (!assetJSON || assetJSON.length === 0) {
                 throw new Error(`The asset ${id} does not exist`);
             }
+
+            console.info(assetJSON.toString());
             return assetJSON.toString();
         } catch (error){
             return `Error: ${error.message}`;
@@ -600,7 +632,6 @@ class PemiraChaincode extends Contract {
     async GetAssetHistory(ctx, args) {
       console.info("============= GET HISTORY UNTUK TRANSAKSI ASSET ===========");
       args = JSON.parse(args);
-      console.info(args);
 
       let queryString = {};
       queryString.selector = {};
@@ -617,13 +648,13 @@ class PemiraChaincode extends Contract {
 
       let asset = JSON.parse(await this.GetQueryResultForQueryString(ctx, JSON.stringify(queryString))); //cari ID suara
       let assetRecord = asset.map(item => item.Record);
-      console.info(assetRecord);
 
       let results = await Promise.all(assetRecord.map(async(item) => {
           let resultsIterator = await ctx.stub.getHistoryForKey(item.id);
           return this._GetAllResults(resultsIterator, true);
       })); // [[{}],[{},{}]]
 
+      console.info(results);
       return JSON.stringify(results);
     }
 
