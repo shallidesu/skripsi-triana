@@ -48,7 +48,8 @@ const invokeTransaction = async (channelName, orgName, chaincodeName, email, met
         if (methodName == "CreatePemilihanObj" || methodName == "CreatePesertaObj" || methodName == "CreatePaslonObj" || 
             methodName == "CreateMisiObj" || methodName == "CreateSuaraObj" || methodName == "UpdatePaslonById" || 
             methodName == "UpdateNoUrutById" || methodName == "UpdateMisiById" || methodName == "DeleteAssetById" || 
-            methodName == "UpdatePemilihanById" || methodName == "UpdateNoUrutById" || methodName == "SetOnline") 
+            methodName == "UpdatePemilihanById" || methodName == "UpdateNoUrutById" || methodName == "DeletePemilihanById" ||
+            methodName == "DeletePaslonById") 
         {
 
             console.log(methodName);

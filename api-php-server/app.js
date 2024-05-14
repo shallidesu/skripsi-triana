@@ -590,7 +590,7 @@ app.delete('/paslon/delete', async function (req,res) {
     try {
         const args = req.body;
         const argsStringify = JSON.stringify(args);
-        const methodName = "DeleteAssetById";
+        const methodName = "DeletePaslonById";
 
         let response = await invoke.invokeTransaction(channelName, idOrg, chaincodeName, req.email, methodName, argsStringify, walletPath);
         console.log(response);

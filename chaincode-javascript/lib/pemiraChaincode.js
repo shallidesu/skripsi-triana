@@ -530,12 +530,16 @@ class PemiraChaincode extends Contract {
       }
     }
 
-    // DeleteAsset deletes an given asset from the world state.
     async DeletePemilihanById(ctx, id) {
       try {
-          console.info('============= HAPUS ASET BY ID ASET ===========');
+          console.info('============= HAPUS PEMILIHAN BY ID PEMILIHAN ===========');
           const idObj = JSON.parse(id);
 
+          const Pemilihanexists = await this.AssetExists(ctx, idObj.id);
+          if (!Pemilihanexists) {
+              throw new Error(`ID ${idObj.id} ini belum terdaftar`);
+          }
+          
           let queryString = {};
           queryString.selector = {};
           queryString.selector.docType = 'Peserta';
@@ -547,15 +551,38 @@ class PemiraChaincode extends Contract {
               ctx.stub.deleteState(item.id);
           }));
 
-          const Pemilihanexists = await this.AssetExists(ctx, idObj.id);
-          if (!Pemilihanexists) {
-              throw new Error(`ID ${idObj.id} ini belum terdaftar`);
-          }
           return ctx.stub.deleteState(idObj.id);
       } catch (error){
           return `Error: ${error.message}`;
       }
-  }
+    }
+
+    async DeletePaslonById(ctx, id) {
+      try {
+          console.info('============= HAPUS PASLON BY ID PASLON ===========');
+          const idObj = JSON.parse(id);
+
+          const PaslonExists = await this.AssetExists(ctx, idObj.id);
+          if (!PaslonExists) {
+              throw new Error(`ID ${idObj.id} ini belum terdaftar`);
+          }
+
+          let queryString = {};
+          queryString.selector = {};
+          queryString.selector.docType = 'Suara';
+          queryString.selector.id_paslon = idObj.id;
+    
+          let suara = JSON.parse(await this.GetQueryResultForQueryString(ctx, JSON.stringify(queryString))); //cari peserta berdasarkan id pemilihan
+          let suaraRecord = suara.map(item => item.Record);
+          await Promise.all(suaraRecord.map(async(item) => {
+              ctx.stub.deleteState(item.id);
+          }));
+
+          return ctx.stub.deleteState(idObj.id);
+      } catch (error){
+          return `Error: ${error.message}`;
+      }
+    }
 
     // DeleteAsset deletes an given asset from the world state.
     async DeleteAssetById(ctx, id) {
