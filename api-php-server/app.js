@@ -19,9 +19,9 @@ const fs = require('fs').promises;
 const channelName = process.env.CHANNEL_NAME || 'pemirastischannel';
 const chaincodeName = process.env.CHAINCODE_NAME || 'pemiraChaincode';
 
-const mspOrg = 'Org1MSP';
+const mspOrg = 'PemilihanMSP';
 const walletPath = path.join(__dirname, 'wallet');
-const idOrg = 'Org1';
+const idOrg = 'Pemilihan';
 
 const registerUser = require('./app/registerUser');
 const invoke = require('./app/invoke');
@@ -180,6 +180,7 @@ app.post('/pemilihan/tambah', async function(req,res) {
         } else {
             response = await invoke.invokeTransaction(channelName, idOrg, chaincodeName, req.email, methodName, pemilihanStringify, walletPath);
         }
+        console.log(JSON.stringify(response));
         res.send(response);
     } catch (error) {
         res.send(error);
@@ -653,22 +654,38 @@ app.get('/allpemilihanpeserta', async function (req,res) {
 
 app.get('/peserta/byidkelaspemilihan', async function (req,res) {
     try {
-        const args = req.body;
-        const methodName = "GetQueryResultForQueryString";
-        console.log(args);
+        let args = req.body;
+        // const methodName = "GetQueryResultForQueryString";
+        const methodName = "GetAssetHistory";
+        args.docType='Peserta';
 
-        let queryString = {};
-        queryString.selector = {};
-        queryString.selector.docType = 'Peserta';
-        queryString.selector.id_mhs = args.id_mhs;
-        queryString.selector.id_kelas = args.id_kelas;
-        queryString.selector.id_pemilihan = args.id_pemilihan;
+        // let queryString = {};
+        // queryString.selector = {};
+        // queryString.selector.docType = 'Peserta';
+        // queryString.selector.id_mhs = args.id_mhs;
+        // queryString.selector.id_kelas = args.id_kelas;
+        // queryString.selector.id_pemilihan = args.id_pemilihan;
 
-        const responseString = await query.queryTransaction(channelName, idOrg, chaincodeName, req.email, JSON.stringify(queryString), methodName, walletPath);
-        const responseObj = JSON.parse(responseString);
-        const recordValues = responseObj.map(item => item.Record);
-        console.log(recordValues);
-        res.send(recordValues);
+        // const responseString = await query.queryTransaction(channelName, idOrg, chaincodeName, req.email, JSON.stringify(queryString), methodName, walletPath);
+        let peserta = JSON.parse(await query.queryTransaction(channelName, idOrg, chaincodeName, req.email, JSON.stringify(args), methodName, walletPath)); // [[{}],[{},{}]]
+        let response = {};
+
+        for (const item of peserta) {
+            for (const element of item) {
+                console.log(element.Value);
+                if (element.Value === "ASET SUDAH DIHAPUS!") {
+                    response.error = "ASET PESERTA INI TELAH DIHAPUS";
+                    break;
+                } 
+                
+                if (element.Value.waktu_memilih != null)
+                    response.waktu_memilih = element.Value.waktu_memilih;
+            } 
+        }
+        if (response.waktu_memilih != null)
+            console.log(response);
+        else
+            console.log("belum memilih");
     } catch (error) {
         res.send(error)
     }
@@ -743,15 +760,15 @@ app.get('/suara/gethistory', async function (req,res) {
                 } 
                 
                 if (element.Value.id_pemilihan == args.id_pemilihan) {
-                        if (args.id_kelas == element.Value.id_kelas) { //karena ini kan dari php gaada ditambahain fcn perkelas karena kalo diisi nanti ga beraturan jadi memang harus dipilih dulu kelas berapa
-                            response.txId = element.TxId;
-                            response.timestamp = element.Timestamp;
-                            response.id_pemilihan = element.Value.id_pemilihan;
-                            response.id_paslon = element.Value.id_paslon;
-                            response.id_kelas = element.Value.id_kelas;
-                            response.jumlah = element.Value.jumlah;
-                            allResponses.push(response);
-                        }
+                    if (args.id_kelas == element.Value.id_kelas) { //karena ini kan dari php gaada ditambahain fcn perkelas karena kalo diisi nanti ga beraturan jadi memang harus dipilih dulu kelas berapa
+                        response.txId = element.TxId;
+                        response.timestamp = element.Timestamp;
+                        response.id_pemilihan = element.Value.id_pemilihan;
+                        response.id_paslon = element.Value.id_paslon;
+                        response.id_kelas = element.Value.id_kelas;
+                        response.jumlah = element.Value.jumlah;
+                        allResponses.push(response);
+                    }
                 }
             } 
         }
