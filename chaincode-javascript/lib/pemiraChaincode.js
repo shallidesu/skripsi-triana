@@ -8,7 +8,7 @@
 
 // Deterministic JSON.stringify()
 const stringify  = require('json-stringify-deterministic');
-// const sortKeysRecursive  = require('sort-keys-recursive');
+const sortKeysRecursive  = require('sort-keys-recursive');
 const { Contract } = require('fabric-contract-api');
 
 class PemiraChaincode extends Contract {
@@ -664,14 +664,15 @@ class PemiraChaincode extends Contract {
       queryString.selector = {};
       queryString.selector.docType = args.docType;
 
-      if (args.docType == 'Suara') {
-        if (args.fcn === 'perkelas')   
-          queryString.selector.id_kelas = args.id_kelas;
-      } else {
-          queryString.selector.id_mhs = args.id_mhs;
-          queryString.selector.id_kelas = args.id_kelas;
-          queryString.selector.id_pemilihan = args.id_pemilihan;
-      }
+      // if (args.docType == 'Suara') {
+      //     queryString.selector.id_mhs = args.id_mhs;
+      //     queryString.selector.id_kelas = args.id_kelas;
+      //     queryString.selector.id_pemilihan = args.id_pemilihan;
+      // }
+
+      queryString.selector.id_mhs = args.id_mhs;
+      queryString.selector.id_kelas = args.id_kelas;
+      queryString.selector.id_pemilihan = args.id_pemilihan;
 
       let asset = JSON.parse(await this.GetQueryResultForQueryString(ctx, JSON.stringify(queryString))); //cari ID suara
       let assetRecord = asset.map(item => item.Record);

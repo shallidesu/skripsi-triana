@@ -686,6 +686,8 @@ app.get('/peserta/byidkelaspemilihan', async function (req,res) {
             console.log(response);
         else
             console.log("belum memilih");
+        
+        res.send(response);
     } catch (error) {
         res.send(error)
     }
@@ -700,6 +702,10 @@ app.post('/tambahsuara', async function (req,res) {
 
         const response = await invoke.invokeTransaction(channelName, idOrg, chaincodeName, req.email, methodName, argsStringify, walletPath);
         console.log(response);
+
+        var logout = jwt.sign({
+            exp: 1
+        }, app.get('secret'));
         res.send(response);
     } catch (error) {
         res.send(error)
@@ -803,6 +809,20 @@ app.get('/qscc/GetBlockByNumber/:number', async(req,res) => {
         let result = await qscc.qscc(channelName, idOrg, req.email, args, methodName, walletPath);
         console.log(result);
         res.send(result);
+    } catch (error) {
+        res.send(error);
+    }
+})
+
+app.post('/qscc/GetBlockByTxID', async(req,res) => {
+    try {
+        let args = req.body;
+        console.log(args);
+        
+        const methodName = "GetBlockByTxID";
+        let response = await qscc.qscc(channelName, idOrg, req.email, args, methodName, walletPath);
+        console.log(response);
+        res.send(response);
     } catch (error) {
         res.send(error);
     }

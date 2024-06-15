@@ -24,7 +24,7 @@ set -e
 ./network.sh up createChannel -c pemirastischannel
 
 #deploy chaincode
-./network.sh deployCC -c pemirastischannel -ccn pemiraChaincode -ccp ../chaincode-javascript -ccl javascript -ccv "1.0" -ccs "1" -cci "NA" -ccep "AND('Org1MSP.peer')" -cccg "NA"
+./network.sh deployCC -c pemirastischannel -ccn pemiraChaincode -ccp ../chaincode-javascript -ccl javascript -ccv "1.0" -ccs "1" -cci "NA" -ccep "AND('Org1MSP.peer','Org2MSP.peer')" -cccg "NA"
 # ./network.sh deployCC -c pemirastischannel -ccn pemiraChaincode -ccp ../chaincode-javascript -ccl javascript 
 
 # Now launch the CLI container in order to install, instantiate chaincode and submit initLedger txn

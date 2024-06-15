@@ -1,0 +1,71 @@
+=============== May 19, 2024 (UTC) ===============
+17:50:38.337737 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+17:50:38.605373 db@open opening
+17:50:38.605779 version@stat F·[] S·0B[] Sc·[]
+17:50:38.730657 db@janitor F·2 G·0
+17:50:38.730692 db@open done T·125.294606ms
+=============== May 23, 2024 (UTC) ===============
+07:10:04.019310 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+07:10:04.019462 version@stat F·[] S·0B[] Sc·[]
+07:10:04.019482 db@open opening
+07:10:04.019533 journal@recovery F·1
+07:10:04.023725 journal@recovery recovering @1
+07:10:04.026743 memdb@flush created L0@2 N·489 S·13KiB "_\x00f,v1":"pem..l\x00s,v2"
+07:10:04.030957 version@stat F·[1] S·13KiB[13KiB] Sc·[0.25]
+07:10:04.038159 db@janitor F·3 G·0
+07:10:04.038186 db@open done T·18.69476ms
+=============== May 23, 2024 (UTC) ===============
+07:32:26.180631 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+07:32:26.180816 version@stat F·[1] S·13KiB[13KiB] Sc·[0.25]
+07:32:26.180837 db@open opening
+07:32:26.180900 journal@recovery F·1
+07:32:26.181075 journal@recovery recovering @3
+07:32:26.181617 version@stat F·[1] S·13KiB[13KiB] Sc·[0.25]
+07:32:26.190031 db@janitor F·3 G·0
+07:32:26.190065 db@open done T·9.219977ms
+=============== May 25, 2024 (UTC) ===============
+11:21:12.155324 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:21:12.156039 version@stat F·[1] S·13KiB[13KiB] Sc·[0.25]
+11:21:12.156104 db@open opening
+11:21:12.157025 journal@recovery F·1
+11:21:12.157219 journal@recovery recovering @5
+11:21:12.168583 memdb@flush created L0@7 N·88 S·2KiB "pem..\x01a\x00,v504":"pem..l\x00s,v492"
+11:21:12.169715 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+11:21:12.214701 db@janitor F·4 G·0
+11:21:12.214730 db@open done T·57.978028ms
+=============== May 25, 2024 (UTC) ===============
+11:23:32.490009 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:23:32.490295 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+11:23:32.490331 db@open opening
+11:23:32.490560 journal@recovery F·1
+11:23:32.490833 journal@recovery recovering @8
+11:23:32.509071 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+11:23:32.627994 db@janitor F·4 G·0
+11:23:32.628093 db@open done T·137.747582ms
+=============== May 25, 2024 (UTC) ===============
+11:24:46.076043 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:24:46.076389 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+11:24:46.076421 db@open opening
+11:24:46.076512 journal@recovery F·1
+11:24:46.076800 journal@recovery recovering @10
+11:24:46.086111 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+11:24:46.159163 db@janitor F·4 G·0
+11:24:46.159199 db@open done T·82.766273ms
+=============== May 25, 2024 (UTC) ===============
+12:06:20.057128 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:06:20.057555 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+12:06:20.057615 db@open opening
+12:06:20.057685 journal@recovery F·1
+12:06:20.057899 journal@recovery recovering @12
+12:06:20.059299 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+12:06:20.108358 db@janitor F·4 G·0
+12:06:20.108387 db@open done T·50.759835ms
+=============== May 25, 2024 (UTC) ===============
+19:34:58.171778 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:34:58.172101 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+19:34:58.172162 db@open opening
+19:34:58.172239 journal@recovery F·1
+19:34:58.172476 journal@recovery recovering @14
+19:34:58.173650 version@stat F·[2] S·15KiB[15KiB] Sc·[0.50]
+19:34:58.221975 db@janitor F·4 G·0
+19:34:58.222048 db@open done T·49.873934ms

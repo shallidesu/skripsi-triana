@@ -87,8 +87,6 @@ queryInstalled 2
 
 ## approve the definition for org1
 approveForMyOrg 1
-
-## now approve also for org2
 approveForMyOrg 2
 
 ## check whether the chaincode definition is ready to be committed

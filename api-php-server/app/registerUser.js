@@ -83,8 +83,8 @@ const registerManyUsers = async (args,orgName, orgMspId, walletPath) => {
         
         // build an instance of the fabric ca services client based on
 		// the information in the network configuration
-		const caClient = await helper.buildCAClient(FabricCAServices, ccp, 'ca.pemilihan.pemira.com');
-		// const caClient = await helper.buildCAClient(FabricCAServices, ccp, 'ca.org1.pemira.com');
+		// const caClient = await helper.buildCAClient(FabricCAServices, ccp, 'ca.pemilihan.pemira.com');
+		const caClient = await helper.buildCAClient(FabricCAServices, ccp, 'ca.org1.pemira.com');
 
         // setup the wallet to hold the credentials of the application user
         const wallet = await helper.buildWallet(Wallets, walletPath);

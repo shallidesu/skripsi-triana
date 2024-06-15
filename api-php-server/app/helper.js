@@ -14,7 +14,7 @@ const fs = require('fs');
 exports.buildCCPPemilihan = async (orgName) => {
     if (orgName == "Pemilihan") {
         // load the common connection configuration file
-        const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'organizations', 'peerOrganizations', 'pemilihan.pemira.com', 'connection-pemilihan.json');
+        const ccpPath = path.resolve(__dirname, '..', '..', 'network-2-peer', 'organizations', 'peerOrganizations', 'pemilihan.pemira.com', 'connection-pemilihan.json');
         const fileExists = fs.existsSync(ccpPath);
         if (!fileExists) {
             throw new Error(`no such file or directory: ${ccpPath}`);
@@ -31,7 +31,7 @@ exports.buildCCPPemilihan = async (orgName) => {
 }
 
 // exports.buildCCPPemilihan = async (orgName) => {
-//     if (orgName === "Org1") {
+//     if (orgName == "Org1") {
 //         // load the common connection configuration file
 //         const ccpPath = path.resolve(__dirname, '..', '..', 'network-2-org', 'organizations', 'peerOrganizations', 'org1.pemira.com', 'connection-org1.json');
 //         const fileExists = fs.existsSync(ccpPath);

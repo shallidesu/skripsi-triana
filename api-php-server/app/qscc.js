@@ -42,8 +42,9 @@ const qscc = async (channelName, orgName, email, args, methodName, walletPath) =
             console.log("GetBlockByNumber");
             for (let i = 0; i <= args.number; i++) {
                 let result = await blockContract.evaluateTransaction(methodName, channelName, i);
-                result = BlockDecoder.decode(result);
-                let header = result.header; //ini hasilnya buffer data
+                let decoded = BlockDecoder.decode(result);
+                console.log(decoded);
+                let header = decoded.header; //ini hasilnya buffer data
 
                 var sha = require('js-sha256');
                 var asn = require('asn1.js');
@@ -66,10 +67,13 @@ const qscc = async (channelName, orgName, email, args, methodName, walletPath) =
                     return hash;
                 }
 
+                let creator = decoded.data.data[0].payload.header.signature_header.creator.mspid;
+
                 response.push({
                     number: parseInt(header.number),
                     prev_hash: header.previous_hash.toString('hex'), //ini diubah ke string
-                    data_hash: calculateBlockHash(header)
+                    data_hash: calculateBlockHash(header),
+                    mspId: creator
                 })
             }
         } else if (methodName === "GetChainInfo") {

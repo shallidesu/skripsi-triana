@@ -1,0 +1,86 @@
+---
+name: blockchain-pemilihan
+version: 1.0.0
+client:
+  organization: Pemilihan
+  connection:
+    timeout:
+      peer:
+        endorser: "300"
+organizations:
+  Pemilihan:
+    mspid: PemilihanMSP
+    peers:
+      - peer0.pemilihan.pemira.com
+      - peer1.pemilihan.pemira.com
+    certificateAuthorities:
+      - ca.pemilihan.pemira.com
+peers:
+  peer0.pemilihan.pemira.com:
+    url: grpcs://localhost:7051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+          MIICFjCCAb2gAwIBAgIUP9etAfYNt0XZYa+VygRnwQpOROkwCgYIKoZIzj0EAwIw
+          aDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK
+          EwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt
+          Y2Etc2VydmVyMB4XDTI0MDYxMzE1MzQwMFoXDTM5MDYxMDE1MzQwMFowaDELMAkG
+          A1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl
+          cmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy
+          dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE2m3ABXWjKvnLeXZLaL7o2RMd
+          sX8x1Z9nPAPTUEOEtoFm0rvfkoT5fG/r6wJH4VSpDxUAXGxWgDvDGlqwm74pDKNF
+          MEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE
+          FBdheN29R+tgAcEWT1ceAq8VRbHWMAoGCCqGSM49BAMCA0cAMEQCIElHqVZexU1E
+          N63Zwvc83P8Ao6WDnTg01B1imWCFGvDlAiAIbIy6WkUiUNAxdmBaE8bEUtOy+LoC
+          Jg2aQS9ebheSaA==
+          -----END CERTIFICATE-----
+          
+    grpcOptions:
+      ssl-target-name-override: peer0.pemilihan.pemira.com
+      hostnameOverride: peer0.pemilihan.pemira.com
+  peer1.pemilihan.pemira.com:
+    url: grpcs://localhost:8051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+          MIICFjCCAb2gAwIBAgIUP9etAfYNt0XZYa+VygRnwQpOROkwCgYIKoZIzj0EAwIw
+          aDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK
+          EwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt
+          Y2Etc2VydmVyMB4XDTI0MDYxMzE1MzQwMFoXDTM5MDYxMDE1MzQwMFowaDELMAkG
+          A1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl
+          cmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy
+          dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE2m3ABXWjKvnLeXZLaL7o2RMd
+          sX8x1Z9nPAPTUEOEtoFm0rvfkoT5fG/r6wJH4VSpDxUAXGxWgDvDGlqwm74pDKNF
+          MEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE
+          FBdheN29R+tgAcEWT1ceAq8VRbHWMAoGCCqGSM49BAMCA0cAMEQCIElHqVZexU1E
+          N63Zwvc83P8Ao6WDnTg01B1imWCFGvDlAiAIbIy6WkUiUNAxdmBaE8bEUtOy+LoC
+          Jg2aQS9ebheSaA==
+          -----END CERTIFICATE-----
+          
+    grpcOptions:
+      ssl-target-name-override: peer1.pemilihan.pemira.com
+      hostnameOverride: peer1.pemilihan.pemira.com
+certificateAuthorities:
+  ca.pemilihan.pemira.com:
+    url: https://localhost:7054
+    caName: ca-pemilihan
+    tlsCACerts:
+      pem:
+        - |
+          -----BEGIN CERTIFICATE-----
+          MIICFjCCAb2gAwIBAgIUP9etAfYNt0XZYa+VygRnwQpOROkwCgYIKoZIzj0EAwIw
+          aDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK
+          EwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt
+          Y2Etc2VydmVyMB4XDTI0MDYxMzE1MzQwMFoXDTM5MDYxMDE1MzQwMFowaDELMAkG
+          A1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl
+          cmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy
+          dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE2m3ABXWjKvnLeXZLaL7o2RMd
+          sX8x1Z9nPAPTUEOEtoFm0rvfkoT5fG/r6wJH4VSpDxUAXGxWgDvDGlqwm74pDKNF
+          MEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE
+          FBdheN29R+tgAcEWT1ceAq8VRbHWMAoGCCqGSM49BAMCA0cAMEQCIElHqVZexU1E
+          N63Zwvc83P8Ao6WDnTg01B1imWCFGvDlAiAIbIy6WkUiUNAxdmBaE8bEUtOy+LoC
+          Jg2aQS9ebheSaA==
+          -----END CERTIFICATE-----
+          
+    httpOptions:
+      verify: false

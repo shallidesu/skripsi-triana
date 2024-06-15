@@ -1,2 +1,0 @@
-Committed chaincode definition for chaincode 'pemiraChaincode' on channel 'pemirastischannel':
-Version: 1.0, Sequence: 1, Endorsement Plugin: escc, Validation Plugin: vscc, Approvals: [PemilihanMSP: true]
